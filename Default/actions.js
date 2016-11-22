@@ -1,7 +1,7 @@
 
 var actions = {
 
-    doTask = function(creep) {
+    doTask: function(creep) {
         var taskMap = {
             "build": doBuild,
             "harvest": doHarvest,
