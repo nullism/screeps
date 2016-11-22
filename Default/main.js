@@ -77,6 +77,7 @@ var doTick = function(spawn) {
     for(var ri in ROLES) {
         var role = ROLES[ri];
         var existing = _.filter(Game.creeps, (creep) => creep.memory.role.name == role.name);
+        //console.log(existing.length + "/" + role.count + " " + role.name + "s");
         if (existing.length < role.count) {
             var newName = createBestCreep(spawn, role);
             if (_.isString(newName)) {
