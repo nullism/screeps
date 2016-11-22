@@ -26,17 +26,17 @@ var ROLES = [
         body: BODIES.worker,
     },
     {
+        name: "archer",
+        tasks: ["ranged", "rally"],
+        count: 3,
+        body: BODIES.ranged
+    },
+    {
         name: "fighter",
         tasks: ["melee", "rally"],
         count: 2,
         body: BODIES.melee
     },
-    {
-        name: "archer",
-        tasks: ["ranged", "rally"],
-        count: 1,
-        body: BODIES.ranged
-    }
 ];
 
 var createBestCreep = function(spawn, role) {
