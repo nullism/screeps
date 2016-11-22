@@ -14,14 +14,14 @@ var setNewTask = function(creep) {
         if (role == "harvest") {
             if(creep.carry.energy < creep.carryCapacity) {
                 creep.memory.task = "harvest";
-                creep.memory.target = sources[0];
+                creep.memory.targetId = sources[0].id;
                 break;
             }
         } 
         else if (role == "store") {
             if (storeTargets.length > 0 && creep.carry.energy > 0) {
                 creep.memory.task = "store";
-                creep.memory.target = storeTargets[0];
+                creep.memory.targetId = storeTargets[0].id;
                 break;
             }
         }
@@ -29,7 +29,7 @@ var setNewTask = function(creep) {
         else if (role == "build") {
             if(buildTargets.length > 0 && creep.carry.energy > 0) {
                 creep.memory.task = "build";
-                creep.memory.target = buildTargets[0];
+                creep.memory.targetId = buildTargets[0].id;
                 break;
             }
         }
@@ -37,14 +37,14 @@ var setNewTask = function(creep) {
             var attTarget = creep.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
             if (attTarget) {
                 creep.memory.task = "melee";
-                creep.memory.target = attTarget;
+                creep.memory.targetId = attTarget.id;
                 break;
             }
         }
         else if (role == "repair") { 
             if(repairTargets.length > 0 && creep.carry.energy > 0) {
                 creep.memory.task = "repair";
-                creep.memory.target = repairTargets[0];
+                creep.memory.targetId = repairTargets[0].id;
                 break;
             }
         }
@@ -96,7 +96,7 @@ var roleGeneric = {
 
             if (clear) { 
                 creep.memory.task = null;
-                creep.memory.target = null;
+                creep.memory.targetId = null;
             }
         }
 

@@ -11,7 +11,10 @@ var actions = {
             "upgrade": this.doUpgrade
         };
 
-        taskMap[creep.memory.task](creep, creep.memory.target);
+        var target = null;
+        if (creep.memory.targetId)
+            target = Game.getObjectById(creep.memory.targetId);
+        taskMap[creep.memory.task](creep, target);
     },
 
     doMelee: function(creep, target) {
