@@ -23,9 +23,15 @@ var actions = {
         }
     },
 
-    doBuild: function(creep, target) { 
-        if(creep.build(target) == ERR_NOT_IN_RANGE) {
+    doBuild: function(creep, target) {
+        var out = creep.build(target);
+         
+        if(out == ERR_NOT_IN_RANGE) {
             creep.moveTo(target);
+        }
+        else if (out == ERR_INVALID_TARGET) {
+            console.log("Invalid build target: " + target);
+            creep.memory.task = null;
         }
     },
 
