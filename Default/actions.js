@@ -30,15 +30,21 @@ var actions = {
             creep.moveTo(target);
         }
         else if (out == ERR_INVALID_TARGET) {
-            console.log("Invalid build target: " + target);
+            console.log("ERROR: Invalid build target: " + target);
             creep.memory.task = null;
         }
     },
 
 
     doHarvest: function(creep, target) {
-        if(creep.harvest(target) == ERR_NOT_IN_RANGE) {
-            creep.moveTo(target);
+        var out = creep.harvest(target);
+
+        if(out == ERR_NOT_IN_RANGE) {
+            var moveOK = creep.moveTo(target);
+            if (moveOK == ERR_NO_PATH) {
+                console.log("ERROR: No path to harvest source: " + target);
+                creep.memory.task = null;
+            }
         }
     },
 
