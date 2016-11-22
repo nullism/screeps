@@ -60,6 +60,10 @@ var setNewTask = function(creep) {
             creep.memory.task = "upgrade";
             break;
         }
+        else if (role == "rally") {
+            creep.memory.task = "rally";
+            break;
+        }
     }
 };
 
@@ -105,6 +109,12 @@ var roleGeneric = {
             else if (task == "upgrade") {
                 if (creep.carry.energy < 1)
                     clear = true;
+            }
+            else if (task == "rally") { 
+                var attTarget = creep.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+                if (attTarget)
+                    clear = true;
+
             }
 
             if (clear) { 

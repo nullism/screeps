@@ -57,7 +57,7 @@ var createBestCreep = function(spawn, role) {
 var doTick = function(spawn) {
     var room = spawn.room;
 
-    room.memory.rallyPoint = { x: 18, y: 33 };
+    room.memory.rallyPoint = { x: spawn.pos.x, y: spawn.pos.x + 5 };
     room.memory.buildTargets = room.find(FIND_CONSTRUCTION_SITES); 
     room.memory.storeTargets = room.find(FIND_STRUCTURES, {
         filter: (structure) => {

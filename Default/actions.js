@@ -6,6 +6,7 @@ var actions = {
             "build": this.doBuild,
             "harvest": this.doHarvest,
             "melee": this.doMelee,
+            "rally": this.doRally,
             "ranged": this.doRanged,
             "repair": this.doRepair,
             "store": this.doStore,
@@ -55,6 +56,11 @@ var actions = {
         }
     },
 
+
+    doRally: function(creep, target) {
+        var pos = creep.room.memory.rallyPoint;
+        creep.moveTo(pos.x, pos.y);
+    },
 
     doRanged: function(creep, target) {
         if(creep.rangedAttack(target) == ERR_NOT_IN_RANGE) {
