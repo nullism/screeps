@@ -87,8 +87,8 @@ var doTick = function(spawn) {
 
 module.exports.loop = function () {
 
-    for(var spawn in Game.spawns) {
-        doTick(spawn);
+    for(var spawnName in Game.spawns) {
+        doTick(Game.spawns[spawnName]);
     } 
 
     // Clear all dead creeps
