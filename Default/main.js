@@ -1,8 +1,8 @@
 var roleGeneric = require('role.generic');
 
 var BODIES = {
-    "worker": [WORK, CARRY, MOVE, WORK, CARRY, CARRY, MOVE, MOVE, WORK, CARRY, MOVE, WORK, CARRY, MOVE, TOUGH, MOVE, WORK],
-    "melee": [ATTACK, MOVE, MOVE, ATTACK, MOVE, TOUGH, ATTACK, MOVE, MOVE, TOUGH, TOUGH, MOVE, ATTACK, MOVE, TOUGH, TOUGH, ATTACK, TOUGH, MOVE],
+    "worker": [WORK, CARRY, MOVE, MOVE, WORK, CARRY, MOVE, CARRY, MOVE, MOVE, WORK, CARRY, MOVE, WORK, CARRY, MOVE, TOUGH, MOVE, WORK],
+    "melee": [ATTACK, MOVE, MOVE, ATTACK, MOVE, TOUGH, MOVE, ATTACK, MOVE, MOVE, TOUGH, TOUGH, MOVE, ATTACK, MOVE, TOUGH, TOUGH, ATTACK, TOUGH, MOVE],
 };
 
 var ROLES = [
@@ -38,7 +38,7 @@ var createBestCreep = function(spawn, role) {
     var newName = spawn.createCreep(cBody, undefined, extra);
     while(newName == ERR_NOT_ENOUGH_ENERGY) {
         cBody.pop();
-        if (cBody.length < 3) {
+        if (cBody.length < 4) {
             console.log("Cannot build any " + role.name + "s!");
             break;
         }
@@ -64,6 +64,7 @@ var doTick = function(spawn) {
         filter: object => object.hits < object.hitsMax
     });
     room.memory.sources = room.find(FIND_SOURCES);
+    room.memory.sources.sort((a,b) => b.energy - a.energy);
 
     // Create any new creeps
     for(var ri in ROLES) {
