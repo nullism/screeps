@@ -12,16 +12,16 @@ var ROLES = [
         count: 5,
         body: BODIES.worker,
     },
-    {   
-        name: "builder",
-        tasks: ["harvest", "build", "repair", "store", "upgrade"],
-        count: 2,
-        body: BODIES.worker,
-    },
     {
         name: "upgrader",
         tasks: ["harvest", "upgrade"],
         count: 1,
+        body: BODIES.worker,
+    },
+    {   
+        name: "builder",
+        tasks: ["harvest", "build", "repair", "store", "upgrade"],
+        count: 2,
         body: BODIES.worker,
     },
     {
