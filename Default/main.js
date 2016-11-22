@@ -21,7 +21,7 @@ var ROLES = [
     {
         name: "upgrader",
         tasks: ["harvest", "upgrade"],
-        count: 1
+        count: 1,
         body: BODIES.worker,
     },
     {
@@ -98,5 +98,4 @@ module.exports.loop = function () {
             console.log('Clearing non-existing creep memory:', name);
         }
     }
-
 }
