@@ -6,6 +6,7 @@ var actions = {
             "build": this.doBuild,
             "harvest": this.doHarvest,
             "melee": this.doMelee,
+            "ranged": this.doRanged,
             "repair": this.doRepair,
             "store": this.doStore,
             "upgrade": this.doUpgrade
@@ -51,6 +52,13 @@ var actions = {
                     }
                 }
             }
+        }
+    },
+
+
+    doRanged: function(creep, target) {
+        if(creep.rangedAttack(target) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(target);
         }
     },
 

@@ -41,6 +41,14 @@ var setNewTask = function(creep) {
                 break;
             }
         }
+        else if (role == "ranged") {
+            var attTarget = creep.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+            if (attTarget) {
+                creep.memory.task = "ranged";
+                creep.memory.targetId = attTarget.id;
+                break;
+            }
+        }
         else if (role == "repair") { 
             if(repairTargets.length > 0 && creep.carry.energy > 0) {
                 creep.memory.task = "repair";
@@ -81,6 +89,11 @@ var roleGeneric = {
                     clear = true;
             }
             else if (task == "melee") {
+                var attTarget = creep.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+                if (!attTarget)
+                    clear = true;
+            }
+            else if (task == "ranged") {
                 var attTarget = creep.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
                 if (!attTarget)
                     clear = true;

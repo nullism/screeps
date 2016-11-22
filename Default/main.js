@@ -3,6 +3,7 @@ var roleGeneric = require('role.generic');
 var BODIES = {
     "worker": [WORK, CARRY, MOVE, MOVE, WORK, CARRY, MOVE, CARRY, MOVE, MOVE, WORK, CARRY, MOVE, WORK, CARRY, MOVE, TOUGH, MOVE, WORK],
     "melee": [ATTACK, MOVE, MOVE, ATTACK, MOVE, TOUGH, MOVE, ATTACK, MOVE, MOVE, TOUGH, TOUGH, MOVE, ATTACK, MOVE, TOUGH, TOUGH, ATTACK, TOUGH, MOVE],
+    "ranged": [RANGED_ATTACK, MOVE, MOVE, TOUGH, RANGED_ATTACK, MOVE, MOVE, TOUGH, RANGED_ATTACK, MOVE, MOVE, TOUGH, RANGED_ATTACK, MOVE, MOVE, TOUGH],
 };
 
 var ROLES = [
@@ -29,6 +30,12 @@ var ROLES = [
         tasks: ["melee", "rally"],
         count: 2,
         body: BODIES.melee
+    },
+    {
+        name: "archer",
+        tasks: ["ranged", "rally"],
+        count: 1,
+        body: BODIES.ranged
     }
 ];
 
