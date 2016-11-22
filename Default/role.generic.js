@@ -1,12 +1,20 @@
 var actions = require("actions");
 
 var setNewTask = function(creep) { 
+
+    var storeTargets = creep.room.memory.storeTargets;
+    var buildTargets = creep.room.memory.buildTargets;
+    var repairTargets = creep.room.memory.repairTargets;
+    var sources = creep.room.memory.sources;
+
+
     for(var i=0; i<creep.memory.role.tasks.length; i++) {
-        var role = creep.memory.role.tasks.length[i];
+        var role = creep.memory.role.tasks[i];
 
         if (role == "harvest") {
             if(creep.carry.energy < creep.carryCapacity) {
                 creep.memory.task = "harvest";
+                creep.memory.target = sources[0];
                 break;
             }
         } 
@@ -45,7 +53,7 @@ var setNewTask = function(creep) {
             break;
         }
     }
-}
+};
 
 var roleGeneric = {
 
@@ -105,6 +113,6 @@ var roleGeneric = {
 
 
     }
-}
+};
 
 module.exports = roleGeneric;

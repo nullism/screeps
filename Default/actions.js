@@ -3,12 +3,12 @@ var actions = {
 
     doTask: function(creep) {
         var taskMap = {
-            "build": doBuild,
-            "harvest": doHarvest,
-            "melee": doMelee,
-            "repair": doRepair,
-            "store": doStore,
-            "upgrade": doUpgrade
+            "build": this.doBuild,
+            "harvest": this.doHarvest,
+            "melee": this.doMelee,
+            "repair": this.doRepair,
+            "store": this.doStore,
+            "upgrade": this.doUpgrade
         };
 
         taskMap[creep.memory.task](creep, creep.memory.target);
