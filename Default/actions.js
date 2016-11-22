@@ -43,7 +43,13 @@ var actions = {
             var moveOK = creep.moveTo(target);
             if (moveOK == ERR_NO_PATH) {
                 console.log("ERROR: No path to harvest source: " + target);
-                creep.memory.task = null;
+                for(var i=0; i<creep.room.memory.sources.length; i++) {
+                    var src = creep.room.memory.sources[i];
+                    if (src.id != target.id) {
+                        creep.memory.targetId = src.id;
+                        break;
+                    }
+                }
             }
         }
     },
