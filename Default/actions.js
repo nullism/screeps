@@ -76,8 +76,15 @@ var actions = {
     },
 
     doStore: function(creep, target) {
-        if(creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+        var out = creep.transfer(target, RESOURCE_ENERGY);
+
+        if(out == ERR_NOT_IN_RANGE) {
             creep.moveTo(target);
+        } else if (out == ERR_FULL) {
+            if (creep.room.memory.storeSources.length > 0)
+                creep.memory.targetId = creep.room.memory.storeSources[0];
+            else
+                creep.memory.task = null;
         }
     },
 
