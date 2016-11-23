@@ -29,6 +29,7 @@ var actions = {
             "build": this.doBuild,
             "fixedHarvest": this.doFixedHarvest,
             "harvest": this.doHarvest,
+            "haul": this.doHaul,
             "melee": this.doMelee,
             "rally": this.doRally,
             "ranged": this.doRanged,
@@ -42,9 +43,6 @@ var actions = {
             target = Game.getObjectById(creep.memory.targetId);
         taskMap[creep.memory.task](creep, target);
     },
-
-
-
 
     doBuild: function(creep, target) {
         var out = creep.build(target);
@@ -83,6 +81,18 @@ var actions = {
             }
         } else if (creep.memory.fullTicks > 0) {
             _clearTask(creep);
+        }
+    },
+
+    doHaul: function (creep, target) {
+        if (!target) {
+            _setNewTarget(creep, target, creep.room.memory.haulTargets);
+        }
+        var out = target.transfer(creep, RESOURCE_ENERGY);
+        if (out == ERR_NOT_IN_RANGE) {
+            creep.moveTo(target);
+        } else if (out == ERR_FULL) {
+            _clearTask(creep); // hauler is full
         }
     },
 

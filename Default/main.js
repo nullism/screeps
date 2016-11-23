@@ -5,6 +5,7 @@ var BODIES = {
     "fixedWorker": [WORK, CARRY, CARRY, MOVE, WORK, CARRY, CARRY, MOVE, WORK, CARRY, CARRY, CARRY, MOVE],
     "melee": [ATTACK, MOVE, MOVE, ATTACK, MOVE, TOUGH, MOVE, ATTACK, MOVE, MOVE, TOUGH, TOUGH, MOVE, ATTACK, MOVE, TOUGH, TOUGH, ATTACK, TOUGH, MOVE],
     "ranged": [RANGED_ATTACK, MOVE, MOVE, TOUGH, RANGED_ATTACK, MOVE, MOVE, TOUGH, RANGED_ATTACK, MOVE, MOVE, TOUGH, RANGED_ATTACK, MOVE, MOVE, TOUGH],
+    "hauler": [CARRY, MOVE, CARRY, MOVE, CARRY, MOVE, CARRY, MOVE],
 };
 
 var ROLES = [
@@ -19,6 +20,12 @@ var ROLES = [
         tasks: ["fixedHarvest", "store"],
         count: 2,
         body: BODIES.fixedWorker,
+    },
+    {
+        name: "hauler",
+        tasks: ["haul", "store"],
+        count: 2,
+        body: BODIES.hauler,
     },
     {
         name: "upgrader",
@@ -78,7 +85,17 @@ var doTick = function(spawn) {
         filter: object => object.hits < object.hitsMax
     });
     room.memory.sources = room.find(FIND_SOURCES);
-    room.memory.sources.sort((a,b) => b.energy - a.energy);
+    room.memory.sources.sort((a, b) => b.energy - a.energy);
+    
+    room.memory.haulTargets = _.filter(Game.creeps, {
+        filter: (creep) => {
+            return (
+                creep.memory.role.name == "fixedHarvester" &&
+                creep.carry.energy > 0
+            )
+        }
+    });
+    room.memory.haulTargets.sort((a, b) => b.carry.energy - a.carry.energy);
 
     // Create any new creeps
     for(var ri in ROLES) {

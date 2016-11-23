@@ -3,6 +3,7 @@ var actions = require("actions");
 var setNewTask = function(creep) { 
 
     var storeTargets = creep.room.memory.storeTargets;
+    var haulTargets = creep.room.memory.haulTargets;
     var buildTargets = creep.room.memory.buildTargets;
     var repairTargets = creep.room.memory.repairTargets;
     var sources = creep.room.memory.sources;
@@ -24,7 +25,13 @@ var setNewTask = function(creep) {
                 creep.memory.targetId = sources[0].id;
                 break;
             }
-        } 
+        }
+        else if (role == "haul") {
+            if (haulTargets.length > 0 && creep.carry.energy < creep.carryCapacity) {
+                creep.memory.task = "haul";
+                creep.memory.targetId = haulTargets[0].id;
+            }
+        }
         else if (role == "store") {
             if (storeTargets.length > 0 && creep.carry.energy > 0) {
                 creep.memory.task = "store";
