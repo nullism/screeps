@@ -83,7 +83,8 @@ var actions = {
         } else if (out == ERR_FULL || out == ERR_INVALID_TARGET) {
             for (var i=0; i<creep.room.memory.storeTargets.length; i++) {
                 var tgt = creep.room.memory.storeTargets[i];
-                if (tgt.id != target.id) {
+                
+                if (target == null || tgt.id != target.id) {
                     creep.memory.targetId = tgt.id;
                     break;
                 }
