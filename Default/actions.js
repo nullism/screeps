@@ -91,7 +91,7 @@ var actions = {
         var out = target.transfer(creep, RESOURCE_ENERGY);
         if (out == ERR_NOT_IN_RANGE) {
             creep.moveTo(target);
-        } else if (out == ERR_FULL) {
+        } else if (out == ERR_FULL || creep.carry.energy >= creep.carryCapacity) {
             _clearTask(creep); // hauler is full
         }
     },
