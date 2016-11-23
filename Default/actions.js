@@ -19,6 +19,16 @@ var actions = {
         taskMap[creep.memory.task](creep, target);
     },
 
+    _getNewTarget: function(current, newList) {
+        for(var i=0; i<newList.length; i++) {
+            var tgt = newList[i];
+            if (current == null || tgt.id != current.id) {
+                return tgt;
+            }
+        }
+        return null;
+    },
+
     doMelee: function(creep, target) {
         if(creep.attack(target) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(target);
@@ -33,7 +43,11 @@ var actions = {
         }
         else if (out == ERR_INVALID_TARGET) {
             console.log("ERROR: Invalid build target: " + target);
-            creep.memory.task = null;
+            var tgt = this._getNewTarget(target, creep.room.memory.buildTargets);
+            if (tgt != null)
+                creep.memory.targetId = tgt.id;
+            else
+                creep.memory.task = null;
         }
     },
 
@@ -45,13 +59,12 @@ var actions = {
             var moveOK = creep.moveTo(target);
             if (moveOK == ERR_NO_PATH) {
                 console.log("ERROR: No path to harvest source: " + target);
-                for(var i=0; i<creep.room.memory.sources.length; i++) {
-                    var src = creep.room.memory.sources[i];
-                    if (src.id != target.id) {
-                        creep.memory.targetId = src.id;
-                        break;
-                    }
-                }
+
+                var tgt = this._getNewTarget(target, creep.room.memory.sources);
+                if (tgt != null)
+                    creep.memory.targetId = tgt.id;
+                else
+                    creep.memory.task = null;
             }
         }
     },
@@ -81,15 +94,13 @@ var actions = {
         if(out == ERR_NOT_IN_RANGE) {
             creep.moveTo(target);
         } else if (out == ERR_FULL || out == ERR_INVALID_TARGET) {
-            for (var i=0; i<creep.room.memory.storeTargets.length; i++) {
-                var tgt = creep.room.memory.storeTargets[i];
-                
-                if (target == null || tgt.id != target.id) {
-                    creep.memory.targetId = tgt.id;
-                    break;
-                }
-        
-            }
+            console.log("ERROR: Full or invalid store target: " + target);
+            var tgt = this._getNewTarget(target, creep.room.memory.storeTargets);
+            if (tgt != null)
+                creep.memory.targetId = tgt.id;
+            else
+                creep.memory.task = null;
+
         }
     },
 
