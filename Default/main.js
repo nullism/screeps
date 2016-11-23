@@ -14,43 +14,43 @@ var ROLES = [
     {
         name: "harvester",
         tasks: ["harvest", "store", "build", "upgrade"],
-        count: 2,
+        count: { early: 4, mid: 1, late: 0 },
         body: BODIES.worker,
     },
     {
         name: "fixedHarvester",
         tasks: ["fixedHarvest", "store"],
-        count: 2,
+        count: { early: 1, mid: 3, late: 4 },
         body: BODIES.fixedWorker,
     },
     {
         name: "hauler",
         tasks: ["haul", "store"],
-        count: 2,
+        count: { early: 1, mid: 2, late: 3 },
         body: BODIES.hauler,
     },
     {
         name: "upgrader",
         tasks: ["pull", "harvest", "upgrade"],
-        count: 2,
+        count: { early: 1, mid: 2, late: 3 },
         body: BODIES.worker,
     },
     {   
         name: "builder",
         tasks: ["pull", "harvest", "build", "repair", "store", "upgrade"],
-        count: 3,
+        count: { early: 0, mid: 3, late: 4 },
         body: BODIES.worker,
     },
     {
         name: "archer",
         tasks: ["ranged", "rally"],
-        count: 3,
+        count: { early: 0, mid: 2, late: 3 },
         body: BODIES.ranged
     },
     {
         name: "fighter",
         tasks: ["melee", "rally"],
-        count: 2,
+        count: { early: 0, mid: 1, late: 2 },
         body: BODIES.melee
     },
 ];
@@ -141,8 +141,8 @@ var doTick = function(spawn) {
     for(var ri in ROLES) {
         var role = ROLES[ri];
         var existing = _.filter(Game.creeps, (creep) => creep.memory.role.name == role.name);
-        //console.log(existing.length + "/" + role.count + " " + role.name + "s");
-        if (existing.length < role.count) {
+        //console.log(existing.length + "/" + role.count[room.memory.age] + " " + role.name + "s");
+        if (existing.length < role.count[room.memory.age]) {
             var newName = createBestCreep(spawn, role);
             if (_.isString(newName)) {
                 console.log("Spawning new " + role.name + ": " + newName);
