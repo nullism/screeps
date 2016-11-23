@@ -8,13 +8,26 @@ _getNewTarget = function(current, newList) {
     return null;
 }
 
+_setNewTarget = function (creep, target, targetList) {
+    var tgt = _getNewTarget(target, targetList);
+    if (tgt != null)
+        creep.memory.targetId = tgt.id;
+    else {
+        _clearTask(creep);
+    }
+}
 
+_clearTask = function (creep) {
+    creep.memory.targetId = null;
+    creep.memory.task = null;
+}
 
 var actions = {
 
     doTask: function(creep) {
         var taskMap = {
             "build": this.doBuild,
+            "fixedHarvest": this.doFixedHarvest,
             "harvest": this.doHarvest,
             "melee": this.doMelee,
             "rally": this.doRally,
@@ -31,11 +44,7 @@ var actions = {
     },
 
 
-    doMelee: function(creep, target) {
-        if(creep.attack(target) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(target);
-        }
-    },
+
 
     doBuild: function(creep, target) {
         var out = creep.build(target);
@@ -45,14 +54,23 @@ var actions = {
         }
         else if (out == ERR_INVALID_TARGET) {
             console.log("ERROR: Invalid build target: " + target);
-            var tgt = _getNewTarget(target, creep.room.memory.buildTargets);
-            if (tgt != null)
-                creep.memory.targetId = tgt.id;
-            else
-                creep.memory.task = null;
+            _setNewTarget(creep, target, creep.room.memory.buildTargets);
         }
     },
 
+    doFixedHarvest: function(creep, target) {
+        var out = creep.harvest(target);
+
+        if(out == ERR_NOT_IN_RANGE) {
+            var moveOK = creep.moveTo(target);
+            if (moveOK == ERR_NO_PATH) {
+                console.log("ERROR: No path to harvest source: " + target);
+                _setNewTarget(creep, target, creep.room.memory.sources);
+            }
+        } else if (creep.carry.energy >= creep.carryCapacity && creep.memory.fullTicks > 100) {
+            _clearTask(creep);
+        }
+    },    
 
     doHarvest: function(creep, target) {
         var out = creep.harvest(target);
@@ -61,16 +79,18 @@ var actions = {
             var moveOK = creep.moveTo(target);
             if (moveOK == ERR_NO_PATH) {
                 console.log("ERROR: No path to harvest source: " + target);
-
-                var tgt = _getNewTarget(target, creep.room.memory.sources);
-                if (tgt != null)
-                    creep.memory.targetId = tgt.id;
-                else
-                    creep.memory.task = null;
+                _setNewTarget(creep, target, creep.room.memory.sources);
             }
+        } else if (creep.memory.fullTicks > 0) {
+            _clearTask(creep);
         }
     },
 
+    doMelee: function(creep, target) {
+        if(creep.attack(target) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(target);
+        }
+    },    
 
     doRally: function(creep, target) {
         var pos = creep.room.memory.rallyPoint;
@@ -91,11 +111,7 @@ var actions = {
             creep.moveTo(target);
         } else if (out == ERR_INVALID_TARGET || !target || target.hits == target.hitsMax) {
             console.log("ERROR: Invalid repair target");
-            var tgt = _getNewTarget(target, creep.room.memory.repairTargets);
-            if (tgt != null)
-                creep.memory.targetId = tgt.id;
-            else
-                creep.memory.task = null;
+            _setNewTarget(creep, target, creep.room.memory.repairTargets);
         }
     },
 
@@ -106,12 +122,7 @@ var actions = {
             creep.moveTo(target);
         } else if (out == ERR_FULL || out == ERR_INVALID_TARGET) {
             console.log("ERROR: Full or invalid store target: " + target);
-            var tgt = _getNewTarget(target, creep.room.memory.storeTargets);
-            if (tgt != null)
-                creep.memory.targetId = tgt.id;
-            else
-                creep.memory.task = null;
-
+            _setNewTarget(creep, target, creep.room.memory.storeTargets);
         }
     },
 

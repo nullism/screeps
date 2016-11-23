@@ -2,6 +2,7 @@ var roleGeneric = require('role.generic');
 
 var BODIES = {
     "worker": [WORK, CARRY, MOVE, MOVE, WORK, WORK, MOVE, CARRY, MOVE, MOVE, WORK, CARRY, MOVE, MOVE, WORK, CARRY, MOVE, WORK, CARRY, MOVE, TOUGH, MOVE, WORK],
+    "fixedWorker": [WORK, CARRY, CARRY, MOVE, WORK, CARRY, CARRY, MOVE, WORK, CARRY, CARRY, CARRY, MOVE],
     "melee": [ATTACK, MOVE, MOVE, ATTACK, MOVE, TOUGH, MOVE, ATTACK, MOVE, MOVE, TOUGH, TOUGH, MOVE, ATTACK, MOVE, TOUGH, TOUGH, ATTACK, TOUGH, MOVE],
     "ranged": [RANGED_ATTACK, MOVE, MOVE, TOUGH, RANGED_ATTACK, MOVE, MOVE, TOUGH, RANGED_ATTACK, MOVE, MOVE, TOUGH, RANGED_ATTACK, MOVE, MOVE, TOUGH],
 };
@@ -12,6 +13,12 @@ var ROLES = [
         tasks: ["harvest", "store", "build", "upgrade"],
         count: 5,
         body: BODIES.worker,
+    },
+    {
+        name: "fixedHarvester",
+        tasks: ["fixedHarvest", "store"],
+        count: 2,
+        body: BODIES.fixedWorker,
     },
     {
         name: "upgrader",

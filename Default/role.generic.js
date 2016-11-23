@@ -11,7 +11,14 @@ var setNewTask = function(creep) {
     for(var i=0; i<creep.memory.role.tasks.length; i++) {
         var role = creep.memory.role.tasks[i];
 
-        if (role == "harvest") {
+        if (role == "fixedHarvest") {
+            if (creep.carry.energy < creep.carryCapacity || creep.memory.fullTicks < 100) {
+                creep.memory.task = "fixedHarvest";
+                if (!creep.memory.targetId)
+                    creep.memory.targetId = source[0].id; 
+            }
+        }        
+        else if (role == "harvest") {
             if(creep.carry.energy < creep.carryCapacity) {
                 creep.memory.task = "harvest";
                 creep.memory.targetId = sources[0].id;
@@ -69,7 +76,12 @@ var setNewTask = function(creep) {
 
 var roleGeneric = {
 
-    run: function(creep) {
+    run: function (creep) {
+        
+        if (creep.carry.energy >= creep.carryCapacity)
+            creep.memory.fullTicks += 1;
+        else
+            creep.memory.fullTicks = 0;
         
         var storeTargets = creep.room.memory.storeTargets;
         var buildTargets = creep.room.memory.buildTargets;
@@ -80,11 +92,8 @@ var roleGeneric = {
         var task = creep.memory.task
         var clear = false;
         if (task != null) {
-            if (task == "harvest") {
-                if (creep.carry.energy >= creep.carryCapacity)
-                    clear = true;
-            }
-            else if (task == "store") {
+
+            if (task == "store") {
                 if (creep.carry.energy < 1 || storeTargets.length < 1) 
                     clear = true;
             }
