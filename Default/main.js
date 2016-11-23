@@ -103,15 +103,19 @@ var doTick = function (spawn) {
     room.memory.buildTargets = room.find(FIND_CONSTRUCTION_SITES);
     room.memory.storeTargets = room.find(FIND_STRUCTURES, {
         filter: (structure) => {
-            return (
-                (structure.structureType == STRUCTURE_EXTENSION
+            return (structure.structureType == STRUCTURE_EXTENSION
                  || structure.structureType == STRUCTURE_SPAWN)
-                 && structure.energy < structure.energyCapacity)
-                ||
-                (structure.structureType == STRUCTURE_CONTAINER
-                 && structure.store[RESOURCE_ENERGY] < structure.storeCapacity);
+                 && structure.energy < structure.energyCapacity;
         }
     });
+    var storeContainers = room.find(FIND_STRUCTURES, {
+        filter: (structure) => {
+            return (structure.structureType == STRUCTURE_CONTAINER
+                && structure.store[RESOURCE_ENERGY] < structure.storeCapacity);
+        }
+    });
+    room.memory.storeTargets.concat(storeContainers);
+
     room.memory.repairTargets = room.find(FIND_STRUCTURES, {
         filter: object => object.hits < object.hitsMax && object.hits < 15000
     });
@@ -120,16 +124,19 @@ var doTick = function (spawn) {
 
     room.memory.pullTargets = room.find(FIND_STRUCTURES, {
         filter: (structure) => {
-            return (
-                (structure.structureType == STRUCTURE_EXTENSION
-                 || structure.structureType == STRUCTURE_SPAWN)
-                 && structure.energy > 0)
-                ||
-                (structure.structureType == STRUCTURE_CONTAINER
-                 && structure.store[RESOURCE_ENERGY] > 0)
+            return (structure.structureType == STRUCTURE_CONTAINER
+                && structure.store[RESOURCE_ENERGY] > 0);
         }
     });
-    room.memory.pullTargets.sort((a, b) => a.energy - b.energy);
+    var pullExtensions = room.find(FIND_STRUCTURES, {
+        filter: (structure) => {
+            return (structure.structureType == STRUCTURE_EXTENSION
+                || structure.structureType == STRUCTURE_SPAWN)
+                && structure.energy > 0;
+        }
+    });
+    pullExtensions.sort((a, b) => a.energy - b.energy);
+    room.memory.pullTargets.concat(pullExtensions);
 
     room.memory.haulTargets = room.find(FIND_CREEPS, {
         filter: (creep) => {
