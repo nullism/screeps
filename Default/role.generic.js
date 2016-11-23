@@ -15,7 +15,7 @@ var setNewTask = function(creep) {
             if (creep.carry.energy < creep.carryCapacity || creep.memory.fullTicks < 100) {
                 creep.memory.task = "fixedHarvest";
                 if (!creep.memory.targetId)
-                    creep.memory.targetId = source[0].id; 
+                    creep.memory.targetId = sources[0].id; 
             }
         }        
         else if (role == "harvest") {
