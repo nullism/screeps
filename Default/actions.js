@@ -47,7 +47,7 @@ var actions = {
 
     doBuild: function(creep, target) {
         var out = creep.build(target);
-         
+
         if(out == ERR_NOT_IN_RANGE) {
             creep.moveTo(target);
         }
@@ -72,7 +72,7 @@ var actions = {
         } else if (creep.carry.energy >= creep.carryCapacity && creep.memory.fullTicks > 300) {
             _clearTask(creep);
         }
-    },    
+    },
 
     doHarvest: function(creep, target) {
         var out = creep.harvest(target);
@@ -89,7 +89,7 @@ var actions = {
     },
 
     doHaul: function (creep, target) {
-        if (!target) {
+        if (!target || target.carry.energy < 10) {
             _setNewTarget(creep, target, creep.room.memory.haulTargets);
         }
         var out = target.transfer(creep, RESOURCE_ENERGY);
@@ -98,13 +98,15 @@ var actions = {
         } else if (out == ERR_FULL || creep.carry.energy >= creep.carryCapacity) {
             _clearTask(creep); // hauler is full
         }
+
+
     },
 
     doMelee: function(creep, target) {
         if(creep.attack(target) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(target);
         }
-    },    
+    },
 
     doPull: function (creep, target) {
         var out = creep.withdraw(target, RESOURCE_ENERGY);
@@ -117,7 +119,7 @@ var actions = {
                 || out == ERR_INVALID_TARGET) {
             _setNewTarget(creep, target, creep.room.memory.pullTargets);
         }
-        
+
     },
 
     doRally: function(creep, target) {
@@ -163,7 +165,7 @@ var actions = {
             creep.moveTo(creep.room.controller);
         }
     },
-    
+
 
 }
 
