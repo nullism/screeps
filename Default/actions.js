@@ -85,8 +85,17 @@ var actions = {
 
 
     doRepair: function(creep, target) {
-        if(creep.repair(target) == ERR_NOT_IN_RANGE) {
+        var out = creep.repair(target);
+
+        if(out == ERR_NOT_IN_RANGE) {
             creep.moveTo(target);
+        } else if (out == ERR_INVALID_TARGET) {
+            console.log("ERROR: Invalid repair target");
+            var tgt = _getNewTarget(target, creep.room.memory.repairTargets);
+            if (tgt != null)
+                creep.memory.targetId = tgt.id;
+            else
+                creep.memory.task = null;
         }
     },
 
