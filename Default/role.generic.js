@@ -31,12 +31,14 @@ var setNewTask = function(creep) {
             if (haulTargets.length > 0 && creep.carry.energy < creep.carryCapacity) {
                 creep.memory.task = "haul";
                 creep.memory.targetId = haulTargets[0].id;
+                break;
             }
         }
         else if (role == "pull") {
             if (pullTargets.length > 0 && creep.carry.energy < creep.carryCapacity) {
                 creep.memory.task = "pull";
                 creep.memory.targetId = pullTargets[0].id;
+                break;
             }
         }
         else if (role == "store") {
