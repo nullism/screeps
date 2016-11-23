@@ -120,6 +120,7 @@ var doTick = function(spawn) {
             return (
                     structure.structureType == STRUCTURE_EXTENSION
                     || structure.structureType == STRUCTURE_SPAWN
+                    || structure.structureType == STRUCTURE_CONTAINER
                 ) &&
                 structure.energy > 0;
         }
