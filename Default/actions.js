@@ -89,7 +89,7 @@ var actions = {
 
         if(out == ERR_NOT_IN_RANGE) {
             creep.moveTo(target);
-        } else if (out == ERR_INVALID_TARGET) {
+        } else if (out == ERR_INVALID_TARGET || !target || target.hits == target.hitsMax) {
             console.log("ERROR: Invalid repair target");
             var tgt = _getNewTarget(target, creep.room.memory.repairTargets);
             if (tgt != null)
