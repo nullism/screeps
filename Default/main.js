@@ -113,7 +113,7 @@ var doTick = function (spawn) {
         }
     });
     room.memory.repairTargets = room.find(FIND_STRUCTURES, {
-        filter: object => object.hits < object.hitsMax && object.hits < 2000
+        filter: object => object.hits < object.hitsMax && object.hits < 15000
     });
     room.memory.sources = room.find(FIND_SOURCES);
     room.memory.sources.sort((a, b) => b.energy - a.energy);
