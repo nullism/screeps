@@ -106,8 +106,9 @@ var actions = {
         }
     },    
 
-    doPull: function (creep, target) { 
+    doPull: function (creep, target) {
         var out = creep.withdraw(target, RESOURCE_ENERGY);
+        console.log(creep.name + " is PULLING! : " + out);
         if (out == ERR_NOT_IN_RANGE) {
             creep.moveTo(target);
         } else if (out == ERR_FULL) {
