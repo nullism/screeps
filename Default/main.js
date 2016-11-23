@@ -142,7 +142,8 @@ var doTick = function (spawn) {
         }
     });
     pullExtensions.sort((a, b) => a.energy - b.energy);
-    room.memory.pullTargets = pullContainers.concat(pullExtensions);
+    //room.memory.pullTargets = pullContainers.concat(pullExtensions);
+    room.memory.pullTargets = pullContainers; // Only pull from storage containers
 
     room.memory.haulTargets = room.find(FIND_CREEPS, {
         filter: (creep) => {
