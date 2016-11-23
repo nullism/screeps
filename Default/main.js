@@ -35,7 +35,7 @@ var ROLES = [
         count: { early: 1, mid: 2, late: 3 },
         body: BODIES.worker,
     },
-    {   
+    {
         name: "builder",
         tasks: ["pull", "harvest", "build", "repair", "store", "upgrade"],
         count: { early: 0, mid: 3, late: 4 },
@@ -88,7 +88,7 @@ var doTick = function(spawn) {
         room.memory.ticks = 0;
     room.memory.ticks += 1;
 
-        
+
     if (room.memory.ticks < 1000) {
         room.memory.age= "early";
     }
@@ -100,12 +100,13 @@ var doTick = function(spawn) {
     }
 
     room.memory.rallyPoint = { x: spawn.pos.x, y: spawn.pos.y + 5 };
-    room.memory.buildTargets = room.find(FIND_CONSTRUCTION_SITES); 
+    room.memory.buildTargets = room.find(FIND_CONSTRUCTION_SITES);
     room.memory.storeTargets = room.find(FIND_STRUCTURES, {
         filter: (structure) => {
             return (
                 structure.structureType == STRUCTURE_EXTENSION
-                || structure.structureType == STRUCTURE_SPAWN) &&
+                || structure.structureType == STRUCTURE_SPAWN
+                || structure.structureType == STRUCTURE_CONTAINER) &&
                 structure.energy < structure.energyCapacity;
         }
     });
@@ -126,7 +127,7 @@ var doTick = function(spawn) {
         }
     });
     room.memory.pullTargets.sort((a, b) => a.energy - b.energy);
-    
+
     room.memory.haulTargets = room.find(FIND_CREEPS, {
         filter: (creep) => {
             return (
@@ -150,7 +151,7 @@ var doTick = function(spawn) {
             }
             break;
         }
-        
+
     }
 
     for(var name in Game.creeps) {
@@ -163,7 +164,7 @@ module.exports.loop = function () {
 
     for (var spawnName in Game.spawns) {
         doTick(Game.spawns[spawnName]);
-    } 
+    }
 
     // Clear or sync all creeps
     for (var name in Memory.creeps) {
@@ -181,6 +182,6 @@ module.exports.loop = function () {
             if (role)
                 creep.memory.role.tasks = role.tasks;
         }
-        
+
     }
 }
