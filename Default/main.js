@@ -26,7 +26,7 @@ var ROLES = [
     {
         name: "hauler",
         tasks: ["haul", "store"],
-        count: { early: 1, mid: 2, late: 3 },
+        count: { early: 1, mid: 3, late: 3 },
         body: BODIES.hauler,
     },
     {
