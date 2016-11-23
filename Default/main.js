@@ -77,13 +77,13 @@ var doTick = function(spawn) {
 
         
     if (room.memory.ticks < 1000) {
-        room.memory.gameAge = "early";
+        room.memory.age= "early";
     }
     else if (room.memory.ticks < 10000) {
-        room.memory.gameAge = "mid";
+        room.memory.age = "mid";
     }
     else {
-        room.memory.gameAge = "late";
+        room.memory.age = "late";
     }
 
     room.memory.rallyPoint = { x: spawn.pos.x, y: spawn.pos.y + 5 };
