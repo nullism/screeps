@@ -87,7 +87,7 @@ var doTick = function(spawn) {
     room.memory.sources = room.find(FIND_SOURCES);
     room.memory.sources.sort((a, b) => b.energy - a.energy);
     
-    room.memory.haulTargets = _.filter(Game.creeps, {
+    room.memory.haulTargets = room.find(FIND_CREEPS, {
         filter: (creep) => {
             return (
                 creep.memory.role.name == "fixedHarvester" &&
