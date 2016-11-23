@@ -140,6 +140,8 @@ var actions = {
                 || !target || target.hits == target.hitsMax) {
             console.log("ERROR: Invalid repair target");
             _setNewTarget(creep, target, creep.room.memory.repairTargets);
+        } else if (out == ERR_NOT_ENOUGH_RESOURCES) {
+            _clearTask(creep);
         }
     },
 
