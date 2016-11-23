@@ -56,11 +56,11 @@ var ROLES = [
 ];
 
 // Tries to create the best creep for role that we can afford
-var createBestCreep = function(spawn, role) {
+var createBestCreep = function (spawn, role) {
     var cBody = role.body.slice(0);
     var extra = { role: role };
     var newName = spawn.createCreep(cBody, undefined, extra);
-    while(newName == ERR_NOT_ENOUGH_ENERGY) {
+    while (newName == ERR_NOT_ENOUGH_ENERGY) {
         cBody.pop();
         if (cBody.length < 4) {
             console.log("Cannot build any " + role.name + "s!");
@@ -72,8 +72,8 @@ var createBestCreep = function(spawn, role) {
 }
 
 // Returns a role object or null
-var getRole = function(roleName) {
-    for(var i=0; i<ROLES.length; i++) {
+var getRole = function (roleName) {
+    for (var i = 0; i < ROLES.length; i++) {
         if (ROLES[i].name == roleName)
             return ROLES[i];
     }
@@ -81,7 +81,7 @@ var getRole = function(roleName) {
 }
 
 // Main loop function
-var doTick = function(spawn) {
+var doTick = function (spawn) {
     var room = spawn.room;
 
     if (!room.memory.ticks)
@@ -90,7 +90,7 @@ var doTick = function(spawn) {
 
 
     if (room.memory.ticks < 1000) {
-        room.memory.age= "early";
+        room.memory.age = "early";
     }
     else if (room.memory.ticks < 10000) {
         room.memory.age = "mid";
@@ -104,10 +104,12 @@ var doTick = function(spawn) {
     room.memory.storeTargets = room.find(FIND_STRUCTURES, {
         filter: (structure) => {
             return (
-                structure.structureType == STRUCTURE_EXTENSION
-                || structure.structureType == STRUCTURE_SPAWN
-                || structure.structureType == STRUCTURE_CONTAINER) &&
-                structure.energy < structure.energyCapacity;
+                (structure.structureType == STRUCTURE_EXTENSION
+                 || structure.structureType == STRUCTURE_SPAWN)
+                 && structure.energy < structure.energyCapacity)
+                ||
+                (structure.structureType == STRUCTURE_CONTAINER
+                 && structure.store[RESOURCE_ENERGY] < structure.storeCapacity);
         }
     });
     room.memory.repairTargets = room.find(FIND_STRUCTURES, {
@@ -119,11 +121,12 @@ var doTick = function(spawn) {
     room.memory.pullTargets = room.find(FIND_STRUCTURES, {
         filter: (structure) => {
             return (
-                    structure.structureType == STRUCTURE_EXTENSION
-                    || structure.structureType == STRUCTURE_SPAWN
-                    || structure.structureType == STRUCTURE_CONTAINER
-                ) &&
-                structure.energy > 0;
+                (structure.structureType == STRUCTURE_EXTENSION
+                 || structure.structureType == STRUCTURE_SPAWN)
+                 && structure.energy > 0)
+                ||
+                (structure.structureType == STRUCTURE_CONTAINER
+                 && structure.store[RESOURCE_ENERGY] > 0)
         }
     });
     room.memory.pullTargets.sort((a, b) => a.energy - b.energy);
@@ -140,7 +143,7 @@ var doTick = function(spawn) {
     room.memory.haulTargets.sort((a, b) => b.carry.energy - a.carry.energy);
 
     // Create any new creeps
-    for(var ri in ROLES) {
+    for (var ri in ROLES) {
         var role = ROLES[ri];
         var existing = _.filter(Game.creeps, (creep) => creep.memory.role.name == role.name);
         //console.log(existing.length + "/" + role.count[room.memory.age] + " " + role.name + "s");
@@ -154,7 +157,7 @@ var doTick = function(spawn) {
 
     }
 
-    for(var name in Game.creeps) {
+    for (var name in Game.creeps) {
         var creep = Game.creeps[name];
         roleGeneric.run(creep);
     }
@@ -168,7 +171,7 @@ module.exports.loop = function () {
 
     // Clear or sync all creeps
     for (var name in Memory.creeps) {
-        if(!Game.creeps[name]) {
+        if (!Game.creeps[name]) {
             delete Memory.creeps[name];
             console.log('Clearing non-existing creep memory:', name);
             continue;
