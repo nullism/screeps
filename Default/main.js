@@ -101,7 +101,7 @@ var doTick = function (spawn) {
 
     room.memory.rallyPoint = { x: spawn.pos.x, y: spawn.pos.y + 5 };
     room.memory.buildTargets = room.find(FIND_CONSTRUCTION_SITES);
-    room.memory.storeTargets = room.find(FIND_STRUCTURES, {
+    var storeExts = room.find(FIND_STRUCTURES, {
         filter: (structure) => {
             return (structure.structureType == STRUCTURE_EXTENSION
                  || structure.structureType == STRUCTURE_SPAWN)
@@ -114,7 +114,7 @@ var doTick = function (spawn) {
                 && structure.store[RESOURCE_ENERGY] < structure.storeCapacity);
         }
     });
-    room.memory.storeTargets.concat(storeContainers);
+    room.memory.storeTargets = storeExts.concat(storeContainers);
 
     room.memory.repairTargets = room.find(FIND_STRUCTURES, {
         filter: object => object.hits < object.hitsMax && object.hits < 15000
@@ -122,7 +122,7 @@ var doTick = function (spawn) {
     room.memory.sources = room.find(FIND_SOURCES);
     room.memory.sources.sort((a, b) => b.energy - a.energy);
 
-    room.memory.pullTargets = room.find(FIND_STRUCTURES, {
+    var pullContainers = room.find(FIND_STRUCTURES, {
         filter: (structure) => {
             return (structure.structureType == STRUCTURE_CONTAINER
                 && structure.store[RESOURCE_ENERGY] > 0);
@@ -136,7 +136,7 @@ var doTick = function (spawn) {
         }
     });
     pullExtensions.sort((a, b) => a.energy - b.energy);
-    room.memory.pullTargets.concat(pullExtensions);
+    room.memory.pullTargets = pullContainers.concat(pullExtensions);
 
     room.memory.haulTargets = room.find(FIND_CREEPS, {
         filter: (creep) => {
