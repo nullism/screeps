@@ -71,6 +71,21 @@ var createBestCreep = function(spawn, role) {
 var doTick = function(spawn) {
     var room = spawn.room;
 
+    if (!room.memory.ticks)
+        room.memory.ticks = 0;
+    room.memory.ticks += 1;
+
+        
+    if (room.memory.ticks < 1000) {
+        room.memory.gameAge = "early";
+    }
+    else if (room.memory.ticks < 10000) {
+        room.memory.gameAge = "mid";
+    }
+    else {
+        room.memory.gameAge = "late";
+    }
+
     room.memory.rallyPoint = { x: spawn.pos.x, y: spawn.pos.y + 5 };
     room.memory.buildTargets = room.find(FIND_CONSTRUCTION_SITES); 
     room.memory.storeTargets = room.find(FIND_STRUCTURES, {
