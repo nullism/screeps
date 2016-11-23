@@ -80,11 +80,15 @@ var actions = {
 
         if(out == ERR_NOT_IN_RANGE) {
             creep.moveTo(target);
-        } else if (out == ERR_FULL) {
-            if (creep.room.memory.storeTargets.length > 0)
-                creep.memory.targetId = creep.room.memory.storeTargets[0];
-            else
-                creep.memory.task = null;
+        } else if (out == ERR_FULL || out == ERR_INVALID_TARGET) {
+            for (var i=0; i<creep.room.memory.storeTargets.length; i++) {
+                var tgt = creep.room.memory.storeTargets[i];
+                if (tgt.id != target.id) {
+                    creep.memory.targetId = tgt.id;
+                    break;
+                }
+        
+            }
         }
     },
 
