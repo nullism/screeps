@@ -12,7 +12,7 @@ var ROLES = [
     {
         name: "harvester",
         tasks: ["harvest", "store", "build", "upgrade"],
-        count: 5,
+        count: 2,
         body: BODIES.worker,
     },
     {
