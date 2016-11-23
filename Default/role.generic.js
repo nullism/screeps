@@ -18,6 +18,7 @@ var setNewTask = function(creep) {
                 creep.memory.task = "fixedHarvest";
                 if (!creep.memory.targetId)
                     creep.memory.targetId = sources[0].id; 
+                break;
             }
         }        
         else if (role == "harvest") {
