@@ -1,5 +1,7 @@
 var roleGeneric = require('role.generic');
 
+var SYNC_ROLE_TASKS = false;
+
 var BODIES = {
     "worker": [WORK, CARRY, MOVE, MOVE, WORK, WORK, MOVE, CARRY, MOVE, MOVE, WORK, CARRY, MOVE, MOVE, WORK, CARRY, MOVE, WORK, CARRY, MOVE, TOUGH, MOVE, WORK],
     "fixedWorker": [WORK, CARRY, CARRY, MOVE, WORK, CARRY, CARRY, MOVE, WORK, CARRY, CARRY, CARRY, MOVE],
@@ -53,6 +55,7 @@ var ROLES = [
     },
 ];
 
+// Tries to create the best creep for role that we can afford
 var createBestCreep = function(spawn, role) {
     var cBody = role.body.slice(0);
     var extra = { role: role };
@@ -68,6 +71,16 @@ var createBestCreep = function(spawn, role) {
     return newName;
 }
 
+// Returns a role object or null
+var getRole = function(roleName) {
+    for(var i=0; i<ROLES.length; i++) {
+        if (ROLES[i].name == roleName)
+            return ROLES[i];
+    }
+    return null;
+}
+
+// Main loop function
 var doTick = function(spawn) {
     var room = spawn.room;
 
@@ -116,6 +129,7 @@ var doTick = function(spawn) {
     room.memory.haulTargets = room.find(FIND_CREEPS, {
         filter: (creep) => {
             return (
+                creep.my &&
                 creep.memory.role.name == "fixedHarvester" &&
                 creep.carry.energy > 0
             )
@@ -146,15 +160,26 @@ var doTick = function(spawn) {
 
 module.exports.loop = function () {
 
-    for(var spawnName in Game.spawns) {
+    for (var spawnName in Game.spawns) {
         doTick(Game.spawns[spawnName]);
     } 
 
-    // Clear all dead creeps
-    for(var name in Memory.creeps) {
+    // Clear or sync all creeps
+    for (var name in Memory.creeps) {
         if(!Game.creeps[name]) {
             delete Memory.creeps[name];
             console.log('Clearing non-existing creep memory:', name);
+            continue;
         }
+
+        var creep = Game.creeps[name];
+        if (!creep.my)
+            continue;
+        if (SYNC_ROLE_TASKS) {
+            var role = getRole(creep.memory.role.name);
+            if (role)
+                creep.memory.role.tasks = role.tasks;
+        }
+        
     }
 }
