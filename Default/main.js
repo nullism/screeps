@@ -29,13 +29,13 @@ var ROLES = [
     },
     {
         name: "upgrader",
-        tasks: ["harvest", "upgrade"],
+        tasks: ["pull", "harvest", "upgrade"],
         count: 2,
         body: BODIES.worker,
     },
     {   
         name: "builder",
-        tasks: ["harvest", "build", "repair", "store", "upgrade"],
+        tasks: ["pull", "harvest", "build", "repair", "store", "upgrade"],
         count: 3,
         body: BODIES.worker,
     },
@@ -86,6 +86,17 @@ var doTick = function(spawn) {
     });
     room.memory.sources = room.find(FIND_SOURCES);
     room.memory.sources.sort((a, b) => b.energy - a.energy);
+
+    room.memory.pullTargets = room.find(FIND_STRUCTURES, {
+        filter: (structure) => {
+            return (
+                    structure.structureType == STRUCTURE_EXTENSION
+                    || structure.structureType == STRUCTURE_SPAWN
+                ) &&
+                structure.energy > 0;
+        }
+    });
+    room.memory.pullTargets.sort((a, b) => a.energy - b.energy);
     
     room.memory.haulTargets = room.find(FIND_CREEPS, {
         filter: (creep) => {

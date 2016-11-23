@@ -4,6 +4,7 @@ var setNewTask = function(creep) {
 
     var storeTargets = creep.room.memory.storeTargets;
     var haulTargets = creep.room.memory.haulTargets;
+    var pullTargets = creep.room.memory.pullTargets;
     var buildTargets = creep.room.memory.buildTargets;
     var repairTargets = creep.room.memory.repairTargets;
     var sources = creep.room.memory.sources;
@@ -30,6 +31,12 @@ var setNewTask = function(creep) {
             if (haulTargets.length > 0 && creep.carry.energy < creep.carryCapacity) {
                 creep.memory.task = "haul";
                 creep.memory.targetId = haulTargets[0].id;
+            }
+        }
+        else if (role == "pull") {
+            if (pullTargets.length > 0 && creep.carry.energy < creep.carryCapacity) {
+                creep.memory.task = "pull";
+                creep.memory.targetId = pullTargets[0].id;
             }
         }
         else if (role == "store") {
@@ -94,21 +101,14 @@ var roleGeneric = {
         var buildTargets = creep.room.memory.buildTargets;
         var repairTargets = creep.room.memory.repairTargets;
         var sources = creep.room.memory.sources;
+        var haulTargets = creep.room.memory.haulTargets;
+        var pullTargets = creep.room.memory.pullTargets;
 
         // Determine if the creep should clear its task
         var task = creep.memory.task
         var clear = false;
         if (task != null) {
-
-            if (task == "store") {
-                if (creep.carry.energy < 1 || storeTargets.length < 1) 
-                    clear = true;
-            }
-            else if (task == "build") {
-                if (creep.carry.energy < 1 || buildTargets.length < 1)
-                    clear = true;
-            }
-            else if (task == "melee") {
+            if (task == "melee") {
                 var attTarget = creep.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
                 if (!attTarget)
                     clear = true;

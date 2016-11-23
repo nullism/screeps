@@ -31,6 +31,7 @@ var actions = {
             "harvest": this.doHarvest,
             "haul": this.doHaul,
             "melee": this.doMelee,
+            "pull": this.doPull,
             "rally": this.doRally,
             "ranged": this.doRanged,
             "repair": this.doRepair,
@@ -53,6 +54,9 @@ var actions = {
         else if (out == ERR_INVALID_TARGET) {
             console.log("ERROR: Invalid build target: " + target);
             _setNewTarget(creep, target, creep.room.memory.buildTargets);
+        } else if (out == ERR_NOT_ENOUGH_RESOURCES
+                || creep.room.memory.buildTargets.length < 1) {
+            _clearTask(creep);
         }
     },
 
@@ -102,6 +106,19 @@ var actions = {
         }
     },    
 
+    doPull: function (creep, target) { 
+        var out = creep.withdraw(target, RESOURCE_ENERGY);
+        if (out == ERR_NOT_IN_RANGE) {
+            creep.moveTo(target);
+        } else if (out == ERR_FULL) {
+            _clearTask(creep);
+        } else if (out == ERR_NOT_ENOUGH_RESOURCES
+                || out == ERR_INVALID_TARGET) {
+            _setNewTarget(creep, target, creep.room.memory.pullTargets);
+        }
+        
+    },
+
     doRally: function(creep, target) {
         var pos = creep.room.memory.rallyPoint;
         creep.moveTo(pos.x, pos.y);
@@ -113,13 +130,13 @@ var actions = {
         }
     },
 
-
     doRepair: function(creep, target) {
         var out = creep.repair(target);
 
         if(out == ERR_NOT_IN_RANGE) {
             creep.moveTo(target);
-        } else if (out == ERR_INVALID_TARGET || !target || target.hits == target.hitsMax) {
+        } else if (out == ERR_INVALID_TARGET
+                || !target || target.hits == target.hitsMax) {
             console.log("ERROR: Invalid repair target");
             _setNewTarget(creep, target, creep.room.memory.repairTargets);
         }
@@ -127,12 +144,14 @@ var actions = {
 
     doStore: function(creep, target) {
         var out = creep.transfer(target, RESOURCE_ENERGY);
-
         if(out == ERR_NOT_IN_RANGE) {
             creep.moveTo(target);
         } else if (out == ERR_FULL || out == ERR_INVALID_TARGET) {
             console.log("ERROR: Full or invalid store target: " + target);
             _setNewTarget(creep, target, creep.room.memory.storeTargets);
+        } else if (out == ERR_NOT_ENOUGH_RESOURCES
+                || creep.room.memory.storeTargets.length < 1) {
+            _clearTask(creep);
         }
     },
 
