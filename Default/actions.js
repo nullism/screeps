@@ -13,14 +13,14 @@ var _getNewTarget = function(current, newList) {
 var _setNewTarget = function (creep, target, targetList) {
     var tgt = _getNewTarget(target, targetList);
     if (tgt != null)
-        creep.memory.targetId = tgt.id;
+        utils.setCreepTarget(creep, tgt);
     else {
         _clearTask(creep);
     }
 }
 
 var _clearTask = function (creep) {
-    creep.memory.targetId = null;
+    utils.clearCreepTarget(creep);
     creep.memory.task = null;
 }
 

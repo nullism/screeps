@@ -94,6 +94,8 @@ var doTick = function (spawn) {
         room.memory.ticks = 0;
     room.memory.ticks += 1;
 
+    if (!room.memory.traffic)
+        room.memory.traffic = {};
 
     if (room.memory.ticks < 1000) {
         room.memory.age = "early";

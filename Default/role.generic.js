@@ -1,6 +1,7 @@
 var actions = require("actions");
+var utils = require("utils");
 
-var setNewTask = function(creep) { 
+var setNewTask = function(creep) {
 
     var storeTargets = creep.room.memory.storeTargets;
     var haulTargets = creep.room.memory.haulTargets;
@@ -17,14 +18,14 @@ var setNewTask = function(creep) {
             if (creep.carry.energy < creep.carryCapacity || creep.memory.fullTicks < 300) {
                 creep.memory.task = "fixedHarvest";
                 if (!creep.memory.targetId)
-                    creep.memory.targetId = sources[0].id; 
+                    utils.setCreepTarget(creep, sources[0].id);
                 break;
             }
-        }        
+        }
         else if (role == "harvest") {
             if(creep.carry.energy < creep.carryCapacity) {
                 creep.memory.task = "harvest";
-                creep.memory.targetId = sources[0].id;
+                utils.setCreepTarget(creep, sources[0].id);
                 break;
             }
         }
@@ -73,7 +74,7 @@ var setNewTask = function(creep) {
                 break;
             }
         }
-        else if (role == "repair") { 
+        else if (role == "repair") {
             if(repairTargets.length > 0 && creep.carry.energy > 0) {
                 creep.memory.task = "repair";
                 creep.memory.targetId = repairTargets[0].id;
@@ -94,12 +95,12 @@ var setNewTask = function(creep) {
 var roleGeneric = {
 
     run: function (creep) {
-        
+
         if (creep.carry.energy >= creep.carryCapacity)
             creep.memory.fullTicks += 1;
         else
             creep.memory.fullTicks = 0;
-        
+
         var storeTargets = creep.room.memory.storeTargets;
         var buildTargets = creep.room.memory.buildTargets;
         var repairTargets = creep.room.memory.repairTargets;
@@ -129,14 +130,14 @@ var roleGeneric = {
                 if (creep.carry.energy < 1)
                     clear = true;
             }
-            else if (task == "rally") { 
+            else if (task == "rally") {
                 var attTarget = creep.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
                 if (attTarget)
                     clear = true;
 
             }
 
-            if (clear) { 
+            if (clear) {
                 creep.memory.task = null;
                 creep.memory.targetId = null;
             }
