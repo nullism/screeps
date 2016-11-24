@@ -30,7 +30,7 @@ var setNewTask = function(creep) {
             }
         }
         else if (role == "haul") {
-            if (haulTargets.length > 0 && creep.carry.energy < creep.carryCapacity) {
+            if (haulTargets.length > 0 && creep.carry.energy < creep.carryCapacity / 2) {
                 creep.memory.task = "haul";
                 utils.setCreepTarget(creep, haulTargets[0]);
                 break;
