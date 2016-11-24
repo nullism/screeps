@@ -1,3 +1,4 @@
+
 var _clearCreepTarget = function(creep) {
     if (creep.memory.targetId) {
         if (!creep.room.memory.traffic[creep.memory.targetId])
@@ -21,7 +22,7 @@ var utils = {
 
     clearCreepTarget: function(creep) {
         _clearCreepTarget(creep);
-    }
+    },
 
     getEnergy: function(structure) {
         if (structure.energy)
