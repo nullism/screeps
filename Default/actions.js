@@ -1,3 +1,5 @@
+var utils = require("utils");
+
 _getNewTarget = function(current, newList) {
     for(var i=0; i<newList.length; i++) {
         var tgt = newList[i];
@@ -157,6 +159,13 @@ var actions = {
         } else if (out == ERR_NOT_ENOUGH_RESOURCES
                 || creep.room.memory.storeTargets.length < 1) {
             _clearTask(creep);
+        }
+
+        if (creep.room.memory.ticks % 3 == 0) {
+            var e = utils.getEnergy(target);
+            var eMax = utils.getEnergyCapacity(target);
+            if (!target || e >= eMax)
+                _setNewTarget(creep, target, creep.room.memory.storeTargets);
         }
     },
 
