@@ -16,6 +16,11 @@ var _setCreepTarget = function(creep, target) {
     creep.memory.targetId = target.id;
 };
 
+var _clearCreepTask = function(creep) {
+    _clearCreepTarget(creep);
+    creep.memory.task = null;
+}
+
 var utils = {
 
     setCreepTarget: function(creep, target) {
@@ -24,6 +29,10 @@ var utils = {
 
     clearCreepTarget: function(creep) {
         _clearCreepTarget(creep);
+    },
+
+    clearCreepTask: function(creep) {
+        _clearCreepTask(creep);
     },
 
     getEnergy: function(structure) {
