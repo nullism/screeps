@@ -101,7 +101,6 @@ var actions = {
             _clearTask(creep); // hauler is full
         }
 
-
     },
 
     doMelee: function(creep, target) {

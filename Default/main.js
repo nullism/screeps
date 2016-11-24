@@ -38,7 +38,7 @@ var ROLES = [
     {
         name: "builder",
         tasks: ["pull", "harvest", "build", "upgrade"],
-        count: { early: 0, mid: 3, late: 4 },
+        count: { early: 0, mid: 2, late: 3 },
         body: BODIES.worker,
     },
     {
