@@ -150,7 +150,7 @@ var doTick = function (spawn) {
             return (
                 creep.my &&
                 creep.memory.role.name == "fixedHarvester" &&
-                creep.carry.energy > 0
+                creep.carry.energy > 10
             )
         }
     });
