@@ -13,7 +13,7 @@ var _clearCreepTarget = function(creep) {
 };
 
 var _setCreepTarget = function(creep, target) {
-    _clearCreepTarget()
+    _clearCreepTarget(creep);
     if (!creep.room.memory.traffic[target.id])
         creep.room.memory.traffic[target.id] = 0;
     creep.room.memory.traffic[target.id] += 1;
