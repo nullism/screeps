@@ -158,11 +158,11 @@ var doTick = function (spawn) {
             return (
                 creep.my &&
                 creep.memory.role.name == "fixedHarvester" &&
-                creep.carry.energy > 10
+                creep.carry.energy > 20
             )
         }
     });
-    room.memory.haulTargets.sort((a, b) => b.carry.energy - a.carry.energy);
+    room.memory.haulTargets.sort((a, b) => room.memory.traffic[a.id] - room.memory.traffic[b.id]);
 
     // Create any new creeps
     for (var ri in ROLES) {
