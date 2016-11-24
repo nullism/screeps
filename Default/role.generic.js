@@ -32,21 +32,21 @@ var setNewTask = function(creep) {
         else if (role == "haul") {
             if (haulTargets.length > 0 && creep.carry.energy < creep.carryCapacity) {
                 creep.memory.task = "haul";
-                creep.memory.targetId = haulTargets[0].id;
+                utils.setCreepTarget(creep, haulTargets[0]);
                 break;
             }
         }
         else if (role == "pull") {
             if (pullTargets.length > 0 && creep.carry.energy < creep.carryCapacity) {
                 creep.memory.task = "pull";
-                creep.memory.targetId = pullTargets[0].id;
+                utils.setCreepTarget(creep, pullTargets[0]);
                 break;
             }
         }
         else if (role == "store") {
             if (storeTargets.length > 0 && creep.carry.energy > 0) {
                 creep.memory.task = "store";
-                creep.memory.targetId = storeTargets[0].id;
+                utils.setCreepTarget(creep, storeTargets[0]);
                 break;
             }
         }
@@ -54,7 +54,7 @@ var setNewTask = function(creep) {
         else if (role == "build") {
             if(buildTargets.length > 0 && creep.carry.energy > 0) {
                 creep.memory.task = "build";
-                creep.memory.targetId = buildTargets[0].id;
+                utils.setCreepTarget(creep, buildTargets[0]);
                 break;
             }
         }
@@ -62,7 +62,7 @@ var setNewTask = function(creep) {
             var attTarget = creep.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
             if (attTarget) {
                 creep.memory.task = "melee";
-                creep.memory.targetId = attTarget.id;
+                utils.setCreepTarget(creep, attTarget);
                 break;
             }
         }
@@ -70,14 +70,14 @@ var setNewTask = function(creep) {
             var attTarget = creep.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
             if (attTarget) {
                 creep.memory.task = "ranged";
-                creep.memory.targetId = attTarget.id;
+                utils.setCreepTarget(creep, attTarget);
                 break;
             }
         }
         else if (role == "repair") {
             if(repairTargets.length > 0 && creep.carry.energy > 0) {
                 creep.memory.task = "repair";
-                creep.memory.targetId = repairTargets[0].id;
+                utils.setCreepTarget(creep, repairTargets[0]);
                 break;
             }
         }
@@ -138,8 +138,7 @@ var roleGeneric = {
             }
 
             if (clear) {
-                creep.memory.task = null;
-                creep.memory.targetId = null;
+                utils.clearCreepTask(creep);
             }
         }
 

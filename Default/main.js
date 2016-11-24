@@ -205,6 +205,7 @@ module.exports.loop = function () {
         }
 
         if (CLEAR_CREEP_TASK) {
+            creep.room.memory.traffic = {};
             utils.clearCreepTask(creep);
         }
 
