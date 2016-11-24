@@ -18,14 +18,14 @@ var setNewTask = function(creep) {
             if (creep.carry.energy < creep.carryCapacity || creep.memory.fullTicks < 300) {
                 creep.memory.task = "fixedHarvest";
                 if (!creep.memory.targetId)
-                    utils.setCreepTarget(creep, sources[0].id);
+                    utils.setCreepTarget(creep, sources[0]);
                 break;
             }
         }
         else if (role == "harvest") {
             if(creep.carry.energy < creep.carryCapacity) {
                 creep.memory.task = "harvest";
-                utils.setCreepTarget(creep, sources[0].id);
+                utils.setCreepTarget(creep, sources[0]);
                 break;
             }
         }
