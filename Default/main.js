@@ -134,7 +134,7 @@ var doTick = function (spawn) {
             return (source.energy > 200);
         }
     });
-    room.memory.sources.sort((a, b) => room.traffic[a.id] - room.traffic[b.id]);
+    room.memory.sources.sort((a, b) => room.memory.traffic[a.id] - room.memory.traffic[b.id]);
 
     var pullContainers = room.find(FIND_STRUCTURES, {
         filter: (structure) => {
