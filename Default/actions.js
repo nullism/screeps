@@ -92,14 +92,14 @@ var actions = {
 
     doHaul: function (creep, target) {
         if (!target || target.carry.energy < 10) {
-            if(creep.carry.energy > creep.carryCapacity / 2)
-                _clearTask(creep);
-            else
-                _setNewTarget(creep, target, creep.room.memory.haulTargets);
+            _setNewTarget(creep, target, creep.room.memory.haulTargets);
         }
         var out = target.transfer(creep, RESOURCE_ENERGY);
         if (out == ERR_NOT_IN_RANGE) {
-            creep.moveTo(target);
+            if(creep.carry.energy > creep.carryCapacity / 2)
+                _clearTask(creep);
+            else
+                creep.moveTo(target);
         } else if (out == ERR_FULL || creep.carry.energy >= creep.carryCapacity) {
             _clearTask(creep); // hauler is full
         }
