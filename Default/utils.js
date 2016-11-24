@@ -1,5 +1,9 @@
 
 var _clearCreepTarget = function(creep) {
+    if (!creep) {
+        console.log("!!! ERROR ERROR !!! _clearCreepTarget creep undef: " + creep);
+        return;
+    }
     if (creep.memory.targetId) {
         if (!creep.room.memory.traffic[creep.memory.targetId])
             creep.room.memory.traffic[creep.memory.targetId] = 1;

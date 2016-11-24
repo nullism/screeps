@@ -2,7 +2,7 @@ var roleGeneric = require('role.generic');
 var utils = require("utils");
 
 var SYNC_ROLE_TASKS = false;
-var CLEAR_CREEP_TASKS = false;
+var CLEAR_CREEP_TASK = false;
 
 var BODIES = {
     "worker": [WORK, CARRY, MOVE, MOVE, WORK, WORK, MOVE, CARRY, MOVE, MOVE, WORK, CARRY, MOVE, MOVE, WORK, CARRY, MOVE, WORK, CARRY, MOVE, TOUGH, MOVE, WORK],
@@ -204,7 +204,7 @@ module.exports.loop = function () {
                 creep.memory.role.tasks = role.tasks;
         }
 
-        if (CLEAR_CREEP_TASKS) {
+        if (CLEAR_CREEP_TASK) {
             utils.clearCreepTask(creep);
         }
 
