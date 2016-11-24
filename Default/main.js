@@ -129,8 +129,12 @@ var doTick = function (spawn) {
     room.memory.repairTargets = room.find(FIND_STRUCTURES, {
         filter: object => object.hits < object.hitsMax && object.hits < 15000
     });
-    room.memory.sources = room.find(FIND_SOURCES);
-    room.memory.sources.sort((a, b) => b.energy - a.energy);
+    room.memory.sources = room.find(FIND_SOURCES, {
+        filter: (source) => {
+            return (source.energy > 200);
+        }
+    });
+    room.memory.sources.sort((a, b) => room.traffic[a.id] - room.traffic[b.id]);
 
     var pullContainers = room.find(FIND_STRUCTURES, {
         filter: (structure) => {
