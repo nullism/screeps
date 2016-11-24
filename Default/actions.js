@@ -1,6 +1,6 @@
 var utils = require("utils");
 
-_getNewTarget = function(current, newList) {
+var _getNewTarget = function(current, newList) {
     for(var i=0; i<newList.length; i++) {
         var tgt = newList[i];
         if (current == null || tgt.id != current.id) {
@@ -10,7 +10,7 @@ _getNewTarget = function(current, newList) {
     return null;
 }
 
-_setNewTarget = function (creep, target, targetList) {
+var _setNewTarget = function (creep, target, targetList) {
     var tgt = _getNewTarget(target, targetList);
     if (tgt != null)
         creep.memory.targetId = tgt.id;
@@ -19,7 +19,7 @@ _setNewTarget = function (creep, target, targetList) {
     }
 }
 
-_clearTask = function (creep) {
+var _clearTask = function (creep) {
     creep.memory.targetId = null;
     creep.memory.task = null;
 }
