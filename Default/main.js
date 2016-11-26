@@ -164,6 +164,7 @@ var doTick = function (spawn) {
             )
         }
     });
+    room.memory.haulTargets.sort((a, b) => b.energy - a.energy);
     room.memory.haulTargets.sort((a, b) => room.memory.traffic[a.id] - room.memory.traffic[b.id]);
 
     // Create any new creeps
