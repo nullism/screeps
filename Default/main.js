@@ -1,4 +1,5 @@
 var roleGeneric = require('role.generic');
+var roleTower = require("role.tower");
 var utils = require("utils");
 
 var SYNC_ROLE_TASKS = false;
@@ -114,7 +115,8 @@ var doTick = function (spawn) {
     var storeExts = room.find(FIND_STRUCTURES, {
         filter: (structure) => {
             return (structure.structureType == STRUCTURE_EXTENSION
-                 || structure.structureType == STRUCTURE_SPAWN)
+                 || structure.structureType == STRUCTURE_SPAWN
+                 || structure.structureType == STRUCTURE_TOWER)
                  && structure.energy < structure.energyCapacity;
         }
     });
@@ -179,10 +181,20 @@ var doTick = function (spawn) {
 
     }
 
+    room.memory.traffic = {};
     for (var name in Game.creeps) {
         var creep = Game.creeps[name];
         roleGeneric.run(creep);
     }
+
+    // Towers
+    var towers = Game.spawns.Spawn1.room.find(FIND_MY_STRUCTURES, {
+        filter: { structureType: STRUCTURE_TOWER }
+    });
+    for (var i in towers) {
+        roleTower.run(towers[i]);
+    }
+
 }
 
 module.exports.loop = function () {
