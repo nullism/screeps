@@ -71,7 +71,7 @@ var actions = {
                 console.log("ERROR: No path to harvest source: " + target);
                 _setNewTarget(creep, target, creep.room.memory.sources);
             }
-        } else if (creep.carry.energy >= creep.carryCapacity && creep.memory.fullTicks > 300) {
+        } else if (creep.carry.energy >= creep.carryCapacity && creep.memory.fullTicks > 100) {
             _clearTask(creep);
         }
     },
