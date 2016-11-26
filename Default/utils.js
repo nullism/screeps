@@ -5,18 +5,12 @@ var _clearCreepTarget = function(creep) {
         return;
     }
     if (creep.memory.targetId) {
-        if (!creep.room.memory.traffic[creep.memory.targetId])
-            creep.room.memory.traffic[creep.memory.targetId] = 1;
-        creep.room.memory.traffic[creep.memory.targetId] -= 1;
         creep.memory.targetId = null;
     }
 };
 
 var _setCreepTarget = function(creep, target) {
     _clearCreepTarget(creep);
-    if (!creep.room.memory.traffic[target.id])
-        creep.room.memory.traffic[target.id] = 0;
-    creep.room.memory.traffic[target.id] += 1;
     creep.memory.targetId = target.id;
 };
 
