@@ -1,4 +1,18 @@
 
+var _getBestTargetForCreep = function(creep) {
+    var task = creep.memory.task;
+    if (task == null)
+        return null;
+
+    var targets = [];
+
+    if (task == "haul") {
+
+    }
+    return creep.room.pos.findClosestByRange(targets);
+};
+
+
 var _clearCreepTarget = function(creep) {
     if (!creep) {
         console.log("!!! ERROR ERROR !!! _clearCreepTarget creep undef: " + creep);

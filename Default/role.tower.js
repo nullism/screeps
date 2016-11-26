@@ -4,6 +4,7 @@ var roleTower = {
         var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
         if(closestHostile) {
             tower.attack(closestHostile);
+            return;
         }
 
         var closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
@@ -11,6 +12,7 @@ var roleTower = {
         });
         if(closestDamagedStructure) {
             tower.repair(closestDamagedStructure);
+            return;
         }
 
 

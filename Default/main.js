@@ -47,19 +47,19 @@ var ROLES = [
     {
         name: "repairer",
         tasks: ["pull", "harvest", "repair", "upgrade"],
-        count: { early: 1, mid: 1, late: 2 },
+        count: { early: 1, mid: 1, late: 1 },
         body: BODIES.worker,
     },
     {
         name: "archer",
         tasks: ["ranged", "rally"],
-        count: { early: 0, mid: 2, late: 3 },
+        count: { early: 0, mid: 2, late: 2 },
         body: BODIES.ranged
     },
     {
         name: "fighter",
         tasks: ["melee", "rally"],
-        count: { early: 0, mid: 1, late: 2 },
+        count: { early: 0, mid: 1, late: 1 },
         body: BODIES.melee
     },
 ];
