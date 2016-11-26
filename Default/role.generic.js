@@ -131,10 +131,7 @@ var roleGeneric = {
                     clear = true;
             }
             else if (task == "rally") {
-                var attTarget = creep.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
-                if (attTarget)
-                    clear = true;
-
+                clear = true;
             }
 
             if (clear) {
