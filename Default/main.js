@@ -184,8 +184,16 @@ var doTick = function (spawn) {
     room.memory.traffic = {};
     for (var name in Game.creeps) {
         var creep = Game.creeps[name];
+        if (creep.memory.targetId) {
+            var tgtId = creep.memory.targetId;
+            if (room.memory.traffic[tgtId] >= 0)
+                room.memory.traffic[tgtId] += 1;
+            else
+                room.memory.traffic[tgtId] = 1;
+        }
         roleGeneric.run(creep);
     }
+
 
     // Towers
     var towers = room.find(FIND_MY_STRUCTURES, {
