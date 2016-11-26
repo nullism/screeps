@@ -188,7 +188,7 @@ var doTick = function (spawn) {
     }
 
     // Towers
-    var towers = Game.spawns.Spawn1.room.find(FIND_MY_STRUCTURES, {
+    var towers = room.find(FIND_MY_STRUCTURES, {
         filter: { structureType: STRUCTURE_TOWER }
     });
     for (var i in towers) {
