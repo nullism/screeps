@@ -191,7 +191,10 @@ var doTick = function (spawn) {
             else
                 room.memory.traffic[tgtId] = 1;
         }
-        roleGeneric.run(creep);
+    }
+
+    for (var name in Game.creeps) {
+        roleGeneric.run(Game.creeps[name]);
     }
 
 
