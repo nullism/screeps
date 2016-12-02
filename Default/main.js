@@ -133,7 +133,10 @@ var doTick = function (spawn) {
     });
     room.memory.sources = room.find(FIND_SOURCES, {
         filter: (source) => {
-            return (source.energy > 200);
+            return (
+                source.energy > 200 &&
+                (!room.memory.traffic[source.id] || room.memory.traffic[source.id] < 4)
+            );
         }
     });
     room.memory.sources.sort((a, b) => room.memory.traffic[a.id] - room.memory.traffic[b.id]);
@@ -160,12 +163,12 @@ var doTick = function (spawn) {
             return (
                 creep.my &&
                 creep.memory.role.name == "fixedHarvester" &&
-                creep.carry.energy > 20
+                creep.carry.energy > 20 &&
+                (!room.memory.traffic[creep.id] || room.memory.traffic[creep.id] < 1)
             )
         }
     });
     room.memory.haulTargets.sort((a, b) => b.energy - a.energy);
-    room.memory.haulTargets.sort((a, b) => room.memory.traffic[a.id] - room.memory.traffic[b.id]);
 
     // Create any new creeps
     for (var ri in ROLES) {

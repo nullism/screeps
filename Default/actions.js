@@ -94,6 +94,8 @@ var actions = {
         if (!target || target.carry.energy < 10) {
             _setNewTarget(creep, target, creep.room.memory.haulTargets);
         }
+        if (!target)
+            return;
         var out = target.transfer(creep, RESOURCE_ENERGY);
         if (out == ERR_NOT_IN_RANGE) {
             if(creep.carry.energy > creep.carryCapacity / 2)
